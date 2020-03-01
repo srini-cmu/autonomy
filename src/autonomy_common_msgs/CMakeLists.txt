@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(autonomy_common_msgs)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
 )
+find_package(rostest REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -102,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES autonomy_common_msgs
 #  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
@@ -115,14 +116,14 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/autonomy_common_msgs.cpp
-# )
+#add_library(${PROJECT_NAME}
+#  src/autonomy_common_msgs.cpp
+#  )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -189,10 +190,20 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_autonomy_common_msgs.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+if(CATKIN_ENABLE_TESTING)
+  message(STATUS ${CMAKE_SOURCE_DIR})
+
+  catkin_add_gtest(${PROJECT_NAME}_tests tst/unit_tests.cpp)
+
+  if(TARGET ${PROJECT_NAME}_tests)
+
+    add_dependencies(${PROJECT_NAME}_tests ${${PROJECT_NAME}_EXPORTED_TARGETS}
+      ${catkin_EXPORTED_TARGETS})
+    
+    target_link_libraries(${PROJECT_NAME}_tests ${catkin_LIBRARIES} ${base_LIBRARIES} yaml-cpp)
+  endif()
+  
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

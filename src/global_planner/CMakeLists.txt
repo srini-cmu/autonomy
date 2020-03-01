@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(global_planner)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
 )
+find_package(rostest REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -187,12 +188,22 @@ include_directories(
 #############
 ## Testing ##
 #############
+if(CATKIN_ENABLE_TESTING)
+  message(STATUS ${CMAKE_SOURCE_DIR})
 
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_global_planner.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+  catkin_add_gtest(${PROJECT_NAME}_tests tst/unit_tests.cpp)
+
+  if(TARGET ${PROJECT_NAME}_tests)
+
+    add_dependencies(${PROJECT_NAME}_tests ${${PROJECT_NAME}_EXPORTED_TARGETS}
+      ${catkin_EXPORTED_TARGETS})
+
+    #use this line if building the package as a library if not use the other one
+    #target_link_libraries(${PROJECT_NAME}_tests ${PROJECT_NAME} ${catkin_LIBRARIES} ${base_LIBRARIES} yaml-cpp)
+    target_link_libraries(${PROJECT_NAME}_tests ${catkin_LIBRARIES} ${base_LIBRARIES} yaml-cpp)
+  endif()
+  
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
