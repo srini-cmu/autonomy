@@ -43,4 +43,5 @@ catkin_make --make-args tests
 catkin_make --make-args run_tests
 ```
 
+I used the instructions on [this page](http://wiki.ros.org/rostest/Writing) to setup the unit tests. Refer to that for more details.
 
