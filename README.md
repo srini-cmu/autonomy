@@ -2,7 +2,7 @@
 Code for Moon Ranger's autonomy computer lives here (in a ROS workspace)
 
 The autonomy repository has the following components:
-- System Executive
+- Rover Executive
   - Decides what to do when. This components hosts the state machine which makes all the decisions.
 - Global Planner
   - Keeps information in the global sense like the global map and generates plan on them. For example, given a goal generates a path which avoids craters and shadows.

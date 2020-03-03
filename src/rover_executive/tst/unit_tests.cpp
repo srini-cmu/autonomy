@@ -1,7 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 
-TEST(SystemExecutive, testcase) {
+TEST(RoverExecutive, testcase) {
   ASSERT_EQ(0,0);
 }
 
