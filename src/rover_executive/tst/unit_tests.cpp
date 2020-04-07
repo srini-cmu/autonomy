@@ -1,5 +1,6 @@
 #include <iostream>
 #include <gtest/gtest.h>
+#include <src/rover_executive.h>
 
 TEST(RoverExecutive, testcase) {
   ASSERT_EQ(0,0);

@@ -134,6 +134,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/rover_executive_node.cpp)
+add_executable(rover_executive src/rover_executive.cpp src/plan_handler.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,6 +150,7 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(rover_executive ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -191,7 +193,7 @@ include_directories(
 if(CATKIN_ENABLE_TESTING)
   message(STATUS ${CMAKE_SOURCE_DIR})
 
-  catkin_add_gtest(${PROJECT_NAME}_tests tst/unit_tests.cpp)
+  catkin_add_gtest(${PROJECT_NAME}_tests tst/unit_tests.cpp src/plan_handler.cpp)
 
   if(TARGET ${PROJECT_NAME}_tests)
 
