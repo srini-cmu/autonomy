@@ -51,7 +51,6 @@
 using namespace trajectoryEvaluatorNamespace;
 using namespace roverModelNamespace;
 
-//TODO:Change 'state' to pose
 class navigator {
 public:
   navigator(double startXCoord, double startYCoord) 

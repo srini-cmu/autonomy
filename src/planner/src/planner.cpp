@@ -122,7 +122,7 @@ private:
 };
 
 void planner::subscribeAndPublish() {
-  //ros::Rate poll_rate(100);
+  ros::Rate poll_rate(100);
   mappingSub =
       n.subscribe("map", 1, &planner::globalMapCallback, this);
   roverExecutiveSub = n.subscribe("/rover_executive/control_nodes", 1, &planner::roverExecutiveCallback, this);
