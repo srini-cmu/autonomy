@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(global_planner_CMU)
+project(planner)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -10,6 +10,10 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  std_msgs
+  message_generation
+  geometry_msgs
+  nav_msgs
 )
 find_package(rostest REQUIRED)
 
@@ -68,10 +72,12 @@ find_package(rostest REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs  # Or other packages containing msgs
+   geometry_msgs
+   nav_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -116,7 +122,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+ include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -207,3 +213,9 @@ endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_library(DstarLite src/Dstar.cpp)
+
+add_executable(planner src/planner.cpp src/Dstar.cpp)
+target_link_libraries(planner ${catkin_LIBRARIES})
+add_dependencies(planner ans_generate_messages_cpp)
